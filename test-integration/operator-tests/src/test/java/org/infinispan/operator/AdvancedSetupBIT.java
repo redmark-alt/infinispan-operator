@@ -153,18 +153,19 @@ class AdvancedSetupBIT {
    void autoscalingTest() throws Exception {
       String request = "https://" + hostName + "/rest/v2/caches/default/autoscaling-key-";
       int i = 0;
+      System.out(request + " ");
       while (openShift.pods().withLabel("clusterName", appName).list().getItems().size() < 5) {
          i++;
          Http.put(request + i).basicAuth(user, pass).data(RandomStringUtils.randomAlphanumeric(1048576), ContentType.TEXT_PLAIN).trustAll().execute();
          System.out.print(".");
-         Waiters.sleep(1200);
+         Waiters.sleep(300);
       }
       System.out.println();
       Waiters.sleep(TimeUnit.MINUTES, 2);
       while (openShift.pods().withLabel("clusterName", appName).list().getItems().size() > 3) {
          Http.delete(request + i).basicAuth(user, pass).trustAll().execute();
          i--;
-         Waiters.sleep(1200);
+         Waiters.sleep(300);
          if(i < 1) {
             throw new IllegalStateException("No more keys to be deleted and cluster size is still has more then 3 replicas.");
          }
