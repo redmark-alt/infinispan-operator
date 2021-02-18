@@ -153,7 +153,7 @@ class AdvancedSetupBIT {
    void autoscalingTest() throws Exception {
       String request = "https://" + hostName + "/rest/v2/caches/default/autoscaling-key-";
       int i = 0;
-      System.out(request + " ");
+      System.out.println(request + " XXXXXXXXX");
       while (openShift.pods().withLabel("clusterName", appName).list().getItems().size() < 5) {
          i++;
          Http.put(request + i).basicAuth(user, pass).data(RandomStringUtils.randomAlphanumeric(1048576), ContentType.TEXT_PLAIN).trustAll().execute();
